@@ -1,6 +1,8 @@
 # main.py
+https://davidmerwin.pieces.cloud/?p=45fe4994fa  
+https://gist.github.com/1fd1c7274fa938f2fd3daceed31bbe88# Import necessary modules
 
-# Import necessary modules
+#Snake Game
 from graphics import Canvas
 import time
 import random
@@ -223,32 +225,53 @@ Program your snake in a new project (leave this one as baby snake)
 Represent your snake using a list of rectangles (where the rectangles are the shapes returned by create_rect). This will make it much easier to move your snake. You will only need to change the head and the tail.
 Us the find_overlapping function to tell if you have hit yourself.
 
+The code snippet creates a simple game where the player moves a blue rectangle on a canvas using arrow keys. The goal is to reach a red rectangle, which randomly moves to a new location when the player reaches it. If the player goes off the canvas https://davidmerwin.pieces.cloud/?p=45fe4994fa
+Canvas Game: Moving Player to Reach Goal.md
+Canvas Game: Moving Player to Reach Goal
+
+Preview:
+
+# main.py
+
+# Import necessary modules
 from graphics import Canvas
 import time
 import random
 
+# Define constants
 CANVAS_WIDTH = 400
 CANVAS_HEIGHT = 400
 SIZE = 20
 DELAY = 0.1
 
+# Define global variables
+direction = 'Right'
+
 def main():
     global direction
-    direction = 'Right'
-
+    
+    # Create a canvas object and initialize player and goal rectangles
     canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
-    player = canvas.create_rectangle(0, 0, SIZE, SIZE, "blue")
-    goal = canvas.create_rectangle(360, 360, 360 + SIZE, 360 + SIZE, "red")
-
+    player = canvas.create_rectangle(10, 10, SIZE, SIZE, 'blue')
+    goal = canvas.create_rectangle(360, 360, 360 + SIZE, 360 + SIZE, 'red')
+    
     while True:
+        # Handle key press events
         handle_key_press(canvas)
+        
+        # Update the world based on player movement
         update_world(canvas, player, goal)
+        
+        # Pause the program for a short duration
         time.sleep(DELAY)
 
 def handle_key_press(canvas):
     global direction
+    
+    # Get the last key press from the canvas
     key = canvas.get_last_key_press()
-
+    
+    # Update direction based on the key pressed
     if key == 'ArrowLeft':
         direction = 'Left'
     elif key == 'ArrowRight':
@@ -260,7 +283,8 @@ def handle_key_press(canvas):
 
 def update_world(canvas, player, goal):
     global direction
-
+    
+    # Move the player based on the current direction
     if direction == 'Right':
         canvas.move(player, SIZE, 0)
     elif direction == 'Left':
@@ -269,22 +293,29 @@ def update_world(canvas, player, goal):
         canvas.move(player, 0, -SIZE)
     elif direction == 'Down':
         canvas.move(player, 0, SIZE)
-
-    if (canvas.get_left_x(player) == canvas.get_left_x(goal) and 
+    
+    # Check if the player reaches the goal, and move the goal to a random position
+    if (canvas.get_left_x(player) == canvas.get_left_x(goal) and
         canvas.get_top_y(player) == canvas.get_top_y(goal)):
-        canvas.move(goal, random.randint(0, CANVAS_WIDTH // SIZE) * SIZE, 
-                          random.randint(0, CANVAS_HEIGHT // SIZE) * SIZE)
-
+        canvas.move(goal, random.randint(0, CANVAS_WIDTH // SIZE) * SIZE,
+                    random.randint(0, CANVAS_HEIGHT // SIZE) * SIZE)
+    
+    # Check if the player goes out of bounds and end the game
     player_left_x = canvas.get_left_x(player)
     player_top_y = canvas.get_top_y(player)
     player_right_x = player_left_x + SIZE
     player_bottom_y = player_top_y + SIZE
-
-    if (player_left_x < 0 or player_right_x > CANVAS_WIDTH or 
+    
+    if (player_left_x < 0 or player_right_x > CANVAS_WIDTH or
         player_top_y < 0 or player_bottom_y > CANVAS_HEIGHT):
         print('Game over!')
-        exit(0)
-
+        exit()
+        
 if __name__ == '__main__':
     main()
+Associated Context	
+Type	Code Snippet ( .py )
+Associated Tags	random Graphics Library pygame wxpython Canvas Arrow Left/Right Motion CANVAS_HEIGHT Arrow Right Motion update_world Player Moveing handle_key_press SIZE CANVAS_WIDTH Key Pressivation DELAY Framework: graphics Random Function time Canvas SDK Game Development tkinter-canvas tkinter turtle-graphics Time Module Game over!
+💡 Smart Description	This code creates a canvas that moves the player and goal of an arrow in between two different modes. It also handles key-press events to update their worlds, with random values based on direction
+The code snippet creates a simple game where the player moves a blue rectangle on a canvas using arrow keys. The goal is to reach a red rectangle, which randomly moves to a new location when the player reaches it. If the player goes off the canvas
 '''
