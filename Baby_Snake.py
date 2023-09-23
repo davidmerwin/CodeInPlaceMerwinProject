@@ -1,4 +1,68 @@
+from graphics import Canvas
+import time
+import random
 
+CANVAS_WIDTH = 400
+CANVAS_HEIGHT = 400
+SIZE = 20
+DELAY = 0.1
+
+def main():
+    global direction
+    direction = 'Right'
+
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+    player = canvas.create_rectangle(0, 0, SIZE, SIZE, "blue")
+    goal = canvas.create_rectangle(360, 360, 360 + SIZE, 360 + SIZE, "red")
+
+    while True:
+        handle_key_press(canvas)
+        update_world(canvas, player, goal)
+        time.sleep(DELAY)
+
+def handle_key_press(canvas):
+    global direction
+    key = canvas.get_last_key_press()
+
+    if key == 'ArrowLeft':
+        direction = 'Left'
+    elif key == 'ArrowRight':
+        direction = 'Right'
+    elif key == 'ArrowUp':
+        direction = 'Up'
+    elif key == 'ArrowDown':
+        direction = 'Down'
+
+def update_world(canvas, player, goal):
+    global direction
+
+    if direction == 'Right':
+        canvas.move(player, SIZE, 0)
+    elif direction == 'Left':
+        canvas.move(player, -SIZE, 0)
+    elif direction == 'Up':
+        canvas.move(player, 0, -SIZE)
+    elif direction == 'Down':
+        canvas.move(player, 0, SIZE)
+
+    if (canvas.get_left_x(player) == canvas.get_left_x(goal) and 
+        canvas.get_top_y(player) == canvas.get_top_y(goal)):
+        canvas.move(goal, random.randint(0, CANVAS_WIDTH // SIZE) * SIZE, 
+                          random.randint(0, CANVAS_HEIGHT // SIZE) * SIZE)
+
+    player_left_x = canvas.get_left_x(player)
+    player_top_y = canvas.get_top_y(player)
+    player_right_x = player_left_x + SIZE
+    player_bottom_y = player_top_y + SIZE
+
+    if (player_left_x < 0 or player_right_x > CANVAS_WIDTH or 
+        player_top_y < 0 or player_bottom_y > CANVAS_HEIGHT):
+        print('Game over!')
+        exit(0)
+
+if __name__ == '__main__':
+    main()
+'''
 https://codeinplace.stanford.edu/cip3/share/zctW0g9poLtetCgpDR0L
 
 IDE | Baby Snake
@@ -75,3 +139,69 @@ If you are feeling very adventurous you could try and implement the full game of
 Program your snake in a new project (leave this one as baby snake)
 Represent your snake using a list of rectangles (where the rectangles are the shapes returned by create_rect). This will make it much easier to move your snake. You will only need to change the head and the tail.
 Us the find_overlapping function to tell if you have hit yourself.
+
+from graphics import Canvas
+import time
+import random
+
+CANVAS_WIDTH = 400
+CANVAS_HEIGHT = 400
+SIZE = 20
+DELAY = 0.1
+
+def main():
+    global direction
+    direction = 'Right'
+
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+    player = canvas.create_rectangle(0, 0, SIZE, SIZE, "blue")
+    goal = canvas.create_rectangle(360, 360, 360 + SIZE, 360 + SIZE, "red")
+
+    while True:
+        handle_key_press(canvas)
+        update_world(canvas, player, goal)
+        time.sleep(DELAY)
+
+def handle_key_press(canvas):
+    global direction
+    key = canvas.get_last_key_press()
+
+    if key == 'ArrowLeft':
+        direction = 'Left'
+    elif key == 'ArrowRight':
+        direction = 'Right'
+    elif key == 'ArrowUp':
+        direction = 'Up'
+    elif key == 'ArrowDown':
+        direction = 'Down'
+
+def update_world(canvas, player, goal):
+    global direction
+
+    if direction == 'Right':
+        canvas.move(player, SIZE, 0)
+    elif direction == 'Left':
+        canvas.move(player, -SIZE, 0)
+    elif direction == 'Up':
+        canvas.move(player, 0, -SIZE)
+    elif direction == 'Down':
+        canvas.move(player, 0, SIZE)
+
+    if (canvas.get_left_x(player) == canvas.get_left_x(goal) and 
+        canvas.get_top_y(player) == canvas.get_top_y(goal)):
+        canvas.move(goal, random.randint(0, CANVAS_WIDTH // SIZE) * SIZE, 
+                          random.randint(0, CANVAS_HEIGHT // SIZE) * SIZE)
+
+    player_left_x = canvas.get_left_x(player)
+    player_top_y = canvas.get_top_y(player)
+    player_right_x = player_left_x + SIZE
+    player_bottom_y = player_top_y + SIZE
+
+    if (player_left_x < 0 or player_right_x > CANVAS_WIDTH or 
+        player_top_y < 0 or player_bottom_y > CANVAS_HEIGHT):
+        print('Game over!')
+        exit(0)
+
+if __name__ == '__main__':
+    main()
+'''
