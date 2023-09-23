@@ -1,3 +1,86 @@
+# main.py
+
+# Import necessary modules
+from graphics import Canvas
+import time
+import random
+
+# Define constants
+CANVAS_WIDTH = 400
+CANVAS_HEIGHT = 400
+SIZE = 20
+DELAY = 0.1
+
+# Define global variables
+direction = 'Right'
+
+def main():
+    global direction
+    
+    # Create a canvas object and initialize player and goal rectangles
+    canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
+    player = canvas.create_rectangle(10, 10, SIZE, SIZE, 'blue')
+    goal = canvas.create_rectangle(360, 360, 360 + SIZE, 360 + SIZE, 'red')
+    
+    while True:
+        # Handle key press events
+        handle_key_press(canvas)
+        
+        # Update the world based on player movement
+        update_world(canvas, player, goal)
+        
+        # Pause the program for a short duration
+        time.sleep(DELAY)
+
+def handle_key_press(canvas):
+    global direction
+    
+    # Get the last key press from the canvas
+    key = canvas.get_last_key_press()
+    
+    # Update direction based on the key pressed
+    if key == 'ArrowLeft':
+        direction = 'Left'
+    elif key == 'ArrowRight':
+        direction = 'Right'
+    elif key == 'ArrowUp':
+        direction = 'Up'
+    elif key == 'ArrowDown':
+        direction = 'Down'
+
+def update_world(canvas, player, goal):
+    global direction
+    
+    # Move the player based on the current direction
+    if direction == 'Right':
+        canvas.move(player, SIZE, 0)
+    elif direction == 'Left':
+        canvas.move(player, -SIZE, 0)
+    elif direction == 'Up':
+        canvas.move(player, 0, -SIZE)
+    elif direction == 'Down':
+        canvas.move(player, 0, SIZE)
+    
+    # Check if the player reaches the goal, and move the goal to a random position
+    if (canvas.get_left_x(player) == canvas.get_left_x(goal) and
+        canvas.get_top_y(player) == canvas.get_top_y(goal)):
+        canvas.move(goal, random.randint(0, CANVAS_WIDTH // SIZE) * SIZE,
+                    random.randint(0, CANVAS_HEIGHT // SIZE) * SIZE)
+    
+    # Check if the player goes out of bounds and end the game
+    player_left_x = canvas.get_left_x(player)
+    player_top_y = canvas.get_top_y(player)
+    player_right_x = player_left_x + SIZE
+    player_bottom_y = player_top_y + SIZE
+    
+    if (player_left_x < 0 or player_right_x > CANVAS_WIDTH or
+        player_top_y < 0 or player_bottom_y > CANVAS_HEIGHT):
+        print('Game over!')
+        exit()
+        
+if __name__ == '__main__':
+    main()
+'''
 from graphics import Canvas
 import time
 import random
